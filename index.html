@@ -1,0 +1,121 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Untitled Document</title>
+    <script src="https://d3js.org/d3.v3.min.js"></script>
+    <style>
+        p{
+            border: 2px solid red;
+            height: 40px;
+            width: 120px;
+            line-height: 40px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <p></p>
+    <input type="button" value="啟動" onclick="launch()">
+    
+    <hr/>
+    <svg id="stave" width="300" height="200">
+    </svg>
+    <hr/>
+    <svg id="bar" width="300" height="200">
+    </svg>
+    <script>
+        DrawStave();
+        DrawRandomBars();
+        
+        function random(N, M){
+           return Math.ceil(Math.random()*(M-N)+N);
+        }
+
+        function launch(){
+            var num = random(1911, 2016);
+            d3.select("p").text(num);
+        }
+        
+        function DrawStave(){
+            var stave = d3.select("#stave");
+            var staveWidth = stave.attr("width");
+            var staveHeight = stave.attr("height");
+            
+            // Background
+            stave.append("rect")
+                 .attr({
+                   x:0,
+                   y:0,
+                   width: staveWidth,
+                   height: staveHeight,
+                   fill:"OldLace"
+            });
+            
+            // circle
+            stave.append("circle")
+                 .attr({
+                   cx:150,
+                   cy:120,
+                   r: 15
+            });
+            
+            // rect
+            stave.append("rect")
+                 .attr({
+                   x:160,
+                   y:45,
+                   width:5,
+                   height:78
+            });
+            
+            // lines
+            for(var i=0;i<5;i++){
+                var yPos = 45+i*30;
+                stave.append("line")
+                     .attr({
+                       x1: 0,
+                       y1: yPos,
+                       x2: staveWidth,
+                       y2: yPos,
+                       stroke: "black"
+                });
+            }
+            
+            // text
+            stave.append("text")
+                 .text("A")
+                 .attr({
+                   x:staveWidth/2-15,
+                   y:200,
+                   "font-size":40
+            });
+        }
+        
+        function DrawRandomBars(){
+            for(var i=0;i<20;i++){
+                var randomVal = random(20, 300);
+                var yPos = 10 + 12*i;
+                d3.select("#bar")
+                  .append("rect")
+                  .attr({
+                    x:0,
+                    y:yPos,
+                    width: randomVal,
+                    height:10,
+                    fill:"red"
+                });
+                d3.select("#bar")
+                  .append("text")
+                  .text(randomVal)
+                  .attr({
+                    x:randomVal + 15,
+                    y:yPos+10,
+                    "font-size":12
+                });
+            }
+        }
+        
+    </script>
+</body>
+</html>
